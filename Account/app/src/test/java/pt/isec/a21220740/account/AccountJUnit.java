@@ -19,25 +19,30 @@ public class AccountJUnit extends TestCase
     }
 
     @Test
-    public void testAesEncryptionVeryLarge() {
+    public void testAccountAdd() {
         String str = "If Pickford's packers packed a packet of crisps would the packet of crisps that Pickford's packers packed survive for two and a half years?";
 
-        /* String iv = PMCrypto.generateIV();
-        byte[] salt = PMCrypto.generateSalt();
+        //Assert.assertEquals(decrypted, str);
 
-        String encrypted = PMCrypto.AESEncryptPBKDF2(str, salt, iv);
-        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, str, salt, iv);
+        System.out.println("Success!\n");
+    }
 
-        System.out.println("---- TESTING testAesEncryptionVeryLarge() ----");
-        System.out.println("String: " + str);
-        System.out.println("IV: " + iv);
-        System.out.println("Salt: " + salt.toString());
-        System.out.println("Encrypted: " + encrypted);
-        System.out.println("Decrypted: " + decrypted);
+    @Test
+    public void testAccountUpdate() {
+        String str = "If Pickford's packers packed a packet of crisps would the packet of crisps that Pickford's packers packed survive for two and a half years?";
 
-        Assert.assertEquals(decrypted, str);
+        //Assert.assertEquals(decrypted, str);
 
-        System.out.println("Success!\n"); */
+        System.out.println("Success!\n");
+    }
+
+    @Test
+    public void testAccountDelete() {
+        String str = "If Pickford's packers packed a packet of crisps would the packet of crisps that Pickford's packers packed survive for two and a half years?";
+
+        //Assert.assertEquals(decrypted, str);
+
+        System.out.println("Success!\n");
     }
 
     @After
