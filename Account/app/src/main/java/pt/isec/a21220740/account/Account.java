@@ -30,6 +30,7 @@ public class Account
         return service;
     }
 
+    /* This method adds an account into the database */
     public boolean add(Account acc) {
         // MUST HAVE DATABASE METHODS
         if(acc != null) {
@@ -41,6 +42,7 @@ public class Account
         return false;
     }
 
+    /* This method updates an account into the database */
     public boolean update(Account acc) {
         // MUST HAVE DATABASE METHODS
         if(acc != null) {
@@ -55,6 +57,7 @@ public class Account
         return false;
     }
 
+    /* This method deletes an account from the database */
     public boolean delete(Account acc) {
         // MUST HAVE DATABASE METHODS
         if(acc != null) {
@@ -64,7 +67,8 @@ public class Account
         return false;
     }
 
+    /* This method retrieves the number of days before a password expires */
     public int getDaysBeforeExpiration() {
-        return lastUpdated.getDay();
+        return (PasswordUtil.getTime().getDay() - lastUpdated.getDay());
     }
 }
