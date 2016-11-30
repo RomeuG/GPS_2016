@@ -45,6 +45,15 @@ public class AccountJUnit extends TestCase
         System.out.println("Success!\n");
     }
 
+    @Test
+    public void testAccountGetDays() {
+        String str = "If Pickford's packers packed a packet of crisps would the packet of crisps that Pickford's packers packed survive for two and a half years?";
+
+        //Assert.assertEquals(decrypted, str);
+
+        System.out.println("Success!\n");
+    }
+
     @After
     public void tearDown() {
 
