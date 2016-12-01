@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "263294808026",
+    "firebase_url": "https://password-manager-1b512.firebaseio.com",
+    "project_id": "password-manager-1b512",
+    "storage_bucket": "password-manager-1b512.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263294808026:android:48b61609fa7633b1",
+        "android_client_info": {
+          "package_name": "com.example.romanpr.passwordmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263294808026-kpipmg4lvcc2odpgfmfvrtmqkepdeu33.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.romanpr.passwordmanager",
+            "certificate_hash": "1CB793680C11B46F711FC251B609F7F70D802A69"
+          }
+        },
+        {
+          "client_id": "263294808026-c9n86r3oq8erlec93msjd31ijl2a4v7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIrCsomlQZK3ZjlrACV4YJBzClIUGwJd4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263294808026-c9n86r3oq8erlec93msjd31ijl2a4v7k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,51 @@
+package com.example.romanpr.passwordmanager;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * Created by romanpr on 11/25/2016.
+ */
+
+public class Account {
+    String service, username, password, lastUpdated;
+
+    public Account() {
+
+    }
+
+    public Account(String service, String username, String password) {
+        this.service = service;
+        this.username = username;
+        this.password = password;
+
+
+        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        lastUpdated = sdf.format(new Date());
+    }
+
+    public String getService() {
+        return service;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public String toString() {
+        return
+                "\nService:\t" + this.service
+                + "\nUsername:\t" + this.username
+                + "\nPassword:\t" + this.password
+                + "\nLast updated:\t" + this.lastUpdated;
+    }
+}
