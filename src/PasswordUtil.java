@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package passwordutil;
 
-import java.util.Random;
-import java.lang.Character;
 import java.util.Date;
+import java.util.Random;
 
 /**
  *
@@ -52,11 +45,6 @@ public class PasswordUtil {
             buf[idx] = symbols[random.nextInt(symbols.length)];
         }
         return new String(buf);
-    }
-
-    public static void main(String[] args) {
-        // TODO code application logic here
-        System.out.println(PasswordUtil.generateRandomPassword(10, false));
     }
 
 }
