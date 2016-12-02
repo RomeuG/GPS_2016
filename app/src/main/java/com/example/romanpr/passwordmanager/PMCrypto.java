@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Random;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -20,8 +21,6 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-
-//import static javax.xml.bind.DatatypeConverter.printHexBinary;
 
 
 /**
@@ -62,11 +61,27 @@ public class PMCrypto {
      */
     public static byte[] generateSalt() {
         byte[] bytes = new byte[8];
-        SecureRandom rnd = new SecureRandom();
 
-        rnd.nextBytes(bytes);
+        new Random().nextBytes(bytes);
 
         return bytes;
+    }
+
+    /**
+     * This static method converts bytes
+     * to a string of hexadecimals.
+     *
+     * @param bytes Bytes to be converted.
+     * @return
+     */
+    public static String bytesToHexStr(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+
+        for(byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -86,7 +101,7 @@ public class PMCrypto {
             IvParameterSpec iv = new IvParameterSpec(aesiv.getBytes("UTF-8"));
 
             // Creation of the key
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             KeySpec spec = new PBEKeySpec(text.toCharArray(), salt, 65536, 256);
             SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
 
@@ -162,7 +177,6 @@ public class PMCrypto {
      * @param password Password to hash.
      * @return String
      */
-    /*
     public static String whirlpoolDigest(byte[] password) {
         byte result[] = new byte[WHIRLPOOL_BLOCK_SIZE];
 
@@ -171,6 +185,6 @@ public class PMCrypto {
         wpHash.update(password, 0, password.length);
         wpHash.doFinal(result, 0);
 
-        return printHexBinary(result);
-    }*/
+        return bytesToHexStr(result).toLowerCase();
+    }
 }
