@@ -21,6 +21,10 @@ public class Database {
     private DatabaseReference database;
     private static final String TAG = "Database";
 
+    /*
+    Instantiates the database member variable with a DatabaseReference to the part of the database
+    relevant to the currently logged in user.
+     */
     public Database(String uid) {
 
         Log.d(TAG, "Received user ID: " + uid);
@@ -28,12 +32,18 @@ public class Database {
         Log.d(TAG, "Database constructor: Member variables instantiated");
     }
 
+    /*
+    Cleans the string of any characters forbidden to be part of the key in Firebase.
+     */
     private String sanitize(String str) {
 
         // Firebase Database paths must not contain '.', '#', '$', '[', or ']'
         return str.replaceAll("[^a-zA-Z0-9]","");
     }
 
+    /*
+    Generates account ID based on the service and username of the account.
+     */
     private String getAccountId(String service, String username) {
 
         String accountId = sanitize(service) + '_' + sanitize(username);
@@ -41,6 +51,9 @@ public class Database {
         return accountId;
     }
 
+    /*
+    Commits the new account object to the database.
+     */
     public void saveNewAccount(Account acc) {
 
         String accountId = getAccountId(acc.getService(), acc.getUsername());
@@ -48,7 +61,9 @@ public class Database {
         Log.d(TAG, "New account added: " + accountId);
     }
 
-
+    /*
+    Fetched an account from the database based on the service and username associated with it.
+     */
     public void getAccount(String service, String username) {
 
         String accountId = getAccountId(service, username);
@@ -71,7 +86,9 @@ public class Database {
         database.child(accountId).addListenerForSingleValueEvent(accountListener);
     }
 
-
+    /*
+    Retrieves the names of the services the user has passwords stored too.
+     */
     public void getAccountList() {
 
         ValueEventListener accountListener = new ValueEventListener() {
@@ -97,7 +114,9 @@ public class Database {
         database.addListenerForSingleValueEvent(accountListener);
     }
 
-
+    /*
+    Deletes the account associated with the passed service and username.
+     */
     public void deleteAccount(String service, String username) {
 
         String accountId = getAccountId(service, username);
@@ -105,7 +124,9 @@ public class Database {
         Log.d(TAG, "Account deleted: " + accountId);
     }
 
-
+    /*
+    Changes the password.
+     */
     public void updatePassword(String service, String username, String newPassword) {
 
         String accountId = getAccountId(service, username);

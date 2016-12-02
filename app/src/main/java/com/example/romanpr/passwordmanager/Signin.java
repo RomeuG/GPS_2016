@@ -26,7 +26,9 @@ public class Signin extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-
+        /*
+        Notifies the app whenever the user signs in or signs out.
+         */
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -87,6 +89,9 @@ public class Signin extends AppCompatActivity {
                 });
     }
 
+    /*
+    Attempts to log in the user with their account's email and password passed as the arguments.
+     */
     private void signIn(String email, String password) {
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -107,6 +112,9 @@ public class Signin extends AppCompatActivity {
                 });
     }
 
+    /*
+    Logs out the currently logged in user.
+     */
     public void signOut() {
 
         // FirebaseAuth.getInstance().signOut();

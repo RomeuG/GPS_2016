@@ -9,7 +9,7 @@ import java.util.Date;
  */
 
 public class Account {
-    String service, username, password, lastUpdated;
+    String service, username, password, lastUpdated, iv, salt;
 
     public Account() {
 
@@ -39,6 +39,14 @@ public class Account {
 
     public String getLastUpdated() {
         return lastUpdated;
+    }
+
+    public String getIv() {
+        return iv;
+    }
+
+    public String getSalt() {
+        return salt;
     }
 
     public String toString() {
