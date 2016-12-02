@@ -29,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
         db.saveNewAccount(acc);
         db.saveNewAccount(acc2);
 
-        db.getAccount("facebook", "roman.priscepov@hotmail.com");
-        db.updatePassword("facebook", "roman.priscepov@hotmail.com", "newPassword*(&*^(&&(*&&^^*");
-        db.getAccount("facebook", "roman.priscepov@hotmail.com");
-        db.getAccountList();
-        db.deleteAccount("facebook", "roman.priscepov@hotmail.com");
+        //db.getAccount("facebook", "roman.priscepov@hotmail.com");
+        //db.updatePassword("facebook", "roman.priscepov@hotmail.com", "newPassword*(&*^(&&(*&&^^*");
+        //db.getAccount("facebook", "roman.priscepov@hotmail.com");
+        //db.getAccountList();
+        //db.deleteAccount("facebook", "roman.priscepov@hotmail.com");
 
     }
 

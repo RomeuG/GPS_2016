@@ -18,7 +18,9 @@ public class Account {
     public Account(String service, String username, String password) {
         this.service = service;
         this.username = username;
-        this.password = password;
+        this.iv = PMCrypto.generateIV();
+        this.salt = new String(PMCrypto.generateSalt());
+        this.password = PMCrypto.AESEncryptPBKDF2(password, salt.getBytes(), iv);
 
 
         DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
