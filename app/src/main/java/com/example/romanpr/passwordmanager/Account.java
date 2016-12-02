@@ -51,6 +51,10 @@ public class Account {
         return salt;
     }
 
+    public String getDecryptedPassword() {
+        return  PMCrypto.AESDecryptPBKDF2(password, "TODO", salt, iv);
+    }
+
     public String toString() {
         return
                 "\nService:\t" + this.service
