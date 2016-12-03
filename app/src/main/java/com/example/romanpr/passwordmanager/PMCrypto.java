@@ -102,7 +102,7 @@ public class PMCrypto {
 
             // Creation of the key
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            KeySpec spec = new PBEKeySpec(text.toCharArray(), salt, 65536, 256);
+            KeySpec spec = new PBEKeySpec(text.toCharArray(), salt, 65536, 128);
             SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
 
             // Actual encryption
@@ -143,8 +143,8 @@ public class PMCrypto {
             IvParameterSpec iv = new IvParameterSpec(aesiv.getBytes("UTF-8"));
 
             // Creation of the key
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(original.toCharArray(), salt, 65536, 256);
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            KeySpec spec = new PBEKeySpec(original.toCharArray(), salt, 65536, 128);
             SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
 
             // Actual encryption
@@ -185,6 +185,6 @@ public class PMCrypto {
         wpHash.update(password, 0, password.length);
         wpHash.doFinal(result, 0);
 
-        return bytesToHexStr(result).toLowerCase();
+        return bytesToHexStr(result).toUpperCase();
     }
 }

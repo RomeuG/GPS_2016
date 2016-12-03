@@ -52,7 +52,7 @@ public class Account {
     }
 
     public String getDecryptedPassword() {
-        return  PMCrypto.AESDecryptPBKDF2(password, "TODO", salt, iv);
+        return  PMCrypto.AESDecryptPBKDF2(password, "TODO", salt.getBytes(), iv);
     }
 
     public String toString() {
