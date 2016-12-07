@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.crypto.SecretKey;
+
 public class CryptoJUnit extends TestCase {
 
     @Before
@@ -91,13 +93,15 @@ public class CryptoJUnit extends TestCase {
         String iv = PMCrypto.generateIV();
         byte[] salt = PMCrypto.generateSalt();
 
-        String encrypted = PMCrypto.AESEncryptPBKDF2(str, salt, iv);
-        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, str, salt, iv);
+        String strKey = "this_is_the_key";
+        SecretKey key = PMCrypto.AESDeriveKey(strKey, salt);
+
+        String encrypted = PMCrypto.AESEncryptPBKDF2(str, key, iv);
+        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, key, iv);
 
         System.out.println("---- TESTING testAesEncryptionVeryLarge() ----");
         System.out.println("String: " + str);
         System.out.println("IV: " + iv);
-        System.out.println("Salt: " + salt.toString());
         System.out.println("Encrypted: " + encrypted);
         System.out.println("Decrypted: " + decrypted);
 
@@ -113,13 +117,15 @@ public class CryptoJUnit extends TestCase {
         String iv = PMCrypto.generateIV();
         byte[] salt = PMCrypto.generateSalt();
 
-        String encrypted = PMCrypto.AESEncryptPBKDF2(str, salt, iv);
-        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, str, salt, iv);
+        String strKey = "this_is_the_key";
+        SecretKey key = PMCrypto.AESDeriveKey(strKey, salt);
+
+        String encrypted = PMCrypto.AESEncryptPBKDF2(str, key, iv);
+        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, key, iv);
 
         System.out.println("---- TESTING testAesEncryptionVeryLarge() ----");
         System.out.println("String: " + str);
         System.out.println("IV: " + iv);
-        System.out.println("Salt: " + salt.toString());
         System.out.println("Encrypted: " + encrypted);
         System.out.println("Decrypted: " + decrypted);
 
@@ -135,13 +141,15 @@ public class CryptoJUnit extends TestCase {
         String iv = PMCrypto.generateIV();
         byte[] salt = PMCrypto.generateSalt();
 
-        String encrypted = PMCrypto.AESEncryptPBKDF2(str, salt, iv);
-        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, str, salt, iv);
+        String strKey = "this_is_the_key";
+        SecretKey key = PMCrypto.AESDeriveKey(strKey, salt);
+
+        String encrypted = PMCrypto.AESEncryptPBKDF2(str, key, iv);
+        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, key, iv);
 
         System.out.println("---- TESTING testAesEncryptionVeryLarge() ----");
         System.out.println("String: " + str);
         System.out.println("IV: " + iv);
-        System.out.println("Salt: " + salt.toString());
         System.out.println("Encrypted: " + encrypted);
         System.out.println("Decrypted: " + decrypted);
 
@@ -157,13 +165,15 @@ public class CryptoJUnit extends TestCase {
         String iv = PMCrypto.generateIV();
         byte[] salt = PMCrypto.generateSalt();
 
-        String encrypted = PMCrypto.AESEncryptPBKDF2(str, salt, iv);
-        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, str, salt, iv);
+        String strKey = "this_is_the_key";
+        SecretKey key = PMCrypto.AESDeriveKey(strKey, salt);
+
+        String encrypted = PMCrypto.AESEncryptPBKDF2(str, key, iv);
+        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, key, iv);
 
         System.out.println("---- TESTING testAesEncryptionVeryLarge() ----");
         System.out.println("String: " + str);
         System.out.println("IV: " + iv);
-        System.out.println("Salt: " + salt.toString());
         System.out.println("Encrypted: " + encrypted);
         System.out.println("Decrypted: " + decrypted);
 
@@ -179,13 +189,15 @@ public class CryptoJUnit extends TestCase {
         String iv = PMCrypto.generateIV();
         byte[] salt = PMCrypto.generateSalt();
 
-        String encrypted = PMCrypto.AESEncryptPBKDF2(str, salt, iv);
-        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, str, salt, iv);
+        String strKey = "this_is_the_key";
+        SecretKey key = PMCrypto.AESDeriveKey(strKey, salt);
+
+        String encrypted = PMCrypto.AESEncryptPBKDF2(str, key, iv);
+        String decrypted = PMCrypto.AESDecryptPBKDF2(encrypted, key, iv);
 
         System.out.println("---- TESTING testAesEncryptionVeryLarge() ----");
         System.out.println("String: " + str);
         System.out.println("IV: " + iv);
-        System.out.println("Salt: " + salt.toString());
         System.out.println("Encrypted: " + encrypted);
         System.out.println("Decrypted: " + decrypted);
 
