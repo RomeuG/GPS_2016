@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_new_service"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="com.example.romanpr.passwordmanager.newService">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:baselineAligned="false">
+
+        android:layout_width=""
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewServiceName"
+            android:text="Add New Service"
+            android:textSize="40sp"
+            android:gravity="center_horizontal"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/key"
+            android:layout_gravity="center_horizontal"></ImageView>
+
+        <LinearLayout
+            android:layout_marginTop="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/etNServiceCS"
+                android:text=""
+                android:hint="Service Name"
+                android:textSize="30sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/etUsernameCS"
+                android:text=""
+                android:hint="Enter your Username"
+                android:textSize="30sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/etPasswordCS"
+                android:inputType="textPassword"
+                android:textSize="30sp"
+                android:hint="Enter a Password"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:inputType="textPassword"
+                android:layout_height="wrap_content"
+                android:id="@+id/etConfirmPasswordCS"
+                android:textSize="30sp"
+                android:hint="Confirm Password"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create"
+                android:id="@+id/bUpdatePass"
+                android:onClick="createAccount"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

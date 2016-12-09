@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.romanpr.passwordmanager.RegisterActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:text="Username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewUsername"
+            android:gravity="center_horizontal"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/editTextRegisterUsername"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:text="Password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:gravity="center_horizontal"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/editTextRegisterPassword"
+            android:gravity="center_horizontal"
+            />
+
+        <TextView
+            android:text="Confirm Password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:gravity="center_horizontal"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/editTextConfimePassword"
+            android:gravity="center_horizontal"
+            />
+
+        <Button
+            android:text="Confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonRegisterConfirm"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:onClick="buttonClickRegister"/>
+
+    </LinearLayout>
+</LinearLayout>

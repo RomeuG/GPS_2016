@@ -72,7 +72,7 @@ public class PMCrypto {
      * to a string of hexadecimals.
      *
      * @param bytes Bytes to be converted.
-     * @return
+     * @return String Hexadecimal string.
      */
     public static String bytesToHexStr(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
@@ -85,29 +85,47 @@ public class PMCrypto {
     }
 
     /**
+     * This static method originates
+     * a key given a string and a salt.
+     * It will be used in the encryption
+     * and decryption.
+     *
+     * @param text Plain text.
+     * @param salt Salt to be added to plain text.
+     * @return SecretKey Object that represents the final key.
+     */
+    public static SecretKey AESDeriveKey(String text, byte[] salt) {
+        try {
+            // Creation of the key
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            KeySpec spec = new PBEKeySpec(text.toCharArray(), salt, 65536, 128);
+            SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+
+            return secret;
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            return null;
+        }
+    }
+
+    /**
      * This static method encrypts the text together
      * with the salt, with the help of IV. After the
      * encryption, it encodes the bytes in Base64 to
      * get a readable string.
      *
      * @param text Plain text password.
-     * @param salt Salt to be used.
+     * @param key Key to be used.
      * @param aesiv IV to be used.
      * @return String
      */
-    public static String AESEncryptPBKDF2(String text, byte[] salt, String aesiv) {
+    public static String AESEncryptPBKDF2(String text, SecretKey key, String aesiv) {
         try {
             // IV construction
             IvParameterSpec iv = new IvParameterSpec(aesiv.getBytes("UTF-8"));
 
-            // Creation of the key
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            KeySpec spec = new PBEKeySpec(text.toCharArray(), salt, 65536, 128);
-            SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
-
             // Actual encryption
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-            cipher.init(Cipher.ENCRYPT_MODE, secret, iv);
+            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
 
             byte[] encrypted = cipher.doFinal(text.getBytes("UTF-8"));
 
@@ -118,10 +136,8 @@ public class PMCrypto {
                 NoSuchPaddingException |
                 BadPaddingException |
                 UnsupportedEncodingException |
-                InvalidKeySpecException |
                 InvalidAlgorithmParameterException |
                 IllegalBlockSizeException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -132,24 +148,18 @@ public class PMCrypto {
      * it needs the IV, salt and the original text.
      *
      * @param encrypted Encrypted password encoded in Base64.
-     * @param original Original plain text password.
-     * @param salt Salt used in the encryption.
+     * @param key Key generated in the encryption.
      * @param aesiv IV used in the encryption.
-     * @return String
+     * @return String Decrypted, plain text password.
      */
-    public static String AESDecryptPBKDF2(String encrypted, String original, byte[] salt, String aesiv) {
+    public static String AESDecryptPBKDF2(String encrypted, SecretKey key, String aesiv) {
         try {
             // IV construction
             IvParameterSpec iv = new IvParameterSpec(aesiv.getBytes("UTF-8"));
 
-            // Creation of the key
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            KeySpec spec = new PBEKeySpec(original.toCharArray(), salt, 65536, 128);
-            SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
-
             // Actual encryption
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secret, iv);
+            cipher.init(Cipher.DECRYPT_MODE, key, iv);
 
             byte[] decrypted = cipher.doFinal(Base64.decode(encrypted));
 
@@ -159,11 +169,9 @@ public class PMCrypto {
                 InvalidKeyException |
                 NoSuchPaddingException |
                 BadPaddingException |
-                InvalidKeySpecException |
                 InvalidAlgorithmParameterException |
                 UnsupportedEncodingException |
                 IllegalBlockSizeException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -175,7 +183,7 @@ public class PMCrypto {
      * long.
      *
      * @param password Password to hash.
-     * @return String
+     * @return String Hexadecimal string representing Whirlpool Hash.
      */
     public static String whirlpoolDigest(byte[] password) {
         byte result[] = new byte[WHIRLPOOL_BLOCK_SIZE];

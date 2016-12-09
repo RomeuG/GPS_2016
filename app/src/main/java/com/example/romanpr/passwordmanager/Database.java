@@ -1,5 +1,9 @@
 package com.example.romanpr.passwordmanager;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -10,13 +14,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import javax.crypto.SecretKey;
+
 import static com.google.android.gms.internal.zzs.TAG;
+import static org.bouncycastle.asn1.x500.style.RFC4519Style.uid;
 
 /**
  * Created by romanpr on 11/25/2016.
  */
 
 public class Database {
+
 
     private DatabaseReference database;
     private static final String TAG = "Database";
@@ -74,6 +82,7 @@ public class Database {
 
                 Account fetchedAccount = dataSnapshot.getValue(Account.class);
                 Log.d(TAG, "Fetched account: " + fetchedAccount.toString());
+                DataMaster.acc = fetchedAccount;
             }
 
             @Override
@@ -98,9 +107,13 @@ public class Database {
 
                 Iterable<DataSnapshot> accountList = dataSnapshot.getChildren();
                 Log.d(TAG, "**************Account List**************");
+                //DataMaster.services = new ArrayList<>();
                 for (DataSnapshot account : accountList) {
                     Log.d(TAG, account.child("service").getValue().toString());
+                    DataMaster.services.add(account.child("service").getValue().toString() + " "
+                    + account.child("username").getValue().toString());
                 }
+                Log.e(TAG, DataMaster.services.toString());
 
             }
 
@@ -130,7 +143,10 @@ public class Database {
     public void updatePassword(String service, String username, String newPassword) {
 
         String accountId = getAccountId(service, username);
-        database.child(accountId).child("password").setValue(newPassword);
+
+        SecretKey key = PMCrypto.AESDeriveKey(DataMaster.masterHash, DataMaster.acc.salt.getBytes());
+        String newPasswordEncrypted = PMCrypto.AESEncryptPBKDF2(newPassword, key, DataMaster.acc.iv);
+        database.child(accountId).child("password").setValue(newPasswordEncrypted);
         Log.d(TAG, "Password updated for: " + accountId);
     }
 

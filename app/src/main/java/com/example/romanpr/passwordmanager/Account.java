@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.crypto.SecretKey;
+
 /**
  * Created by romanpr on 11/25/2016.
  */
@@ -20,7 +22,10 @@ public class Account {
         this.username = username;
         this.iv = PMCrypto.generateIV();
         this.salt = new String(PMCrypto.generateSalt());
-        this.password = PMCrypto.AESEncryptPBKDF2(password, salt.getBytes(), iv);
+
+        SecretKey key = PMCrypto.AESDeriveKey(DataMaster.masterHash, this.salt.getBytes());
+
+        this.password = PMCrypto.AESEncryptPBKDF2(password, key, iv);
 
 
         DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -52,7 +57,8 @@ public class Account {
     }
 
     public String getDecryptedPassword() {
-        return  PMCrypto.AESDecryptPBKDF2(password, "TODO", salt.getBytes(), iv);
+        SecretKey key = PMCrypto.AESDeriveKey(DataMaster.masterHash, this.salt.getBytes());
+        return  PMCrypto.AESDecryptPBKDF2(password, key, iv);
     }
 
     public String toString() {

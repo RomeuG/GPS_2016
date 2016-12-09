@@ -1,9 +1,9 @@
 package com.example.romanpr.passwordmanager;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,23 +15,24 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Signin extends AppCompatActivity {
+public class RegisterActivity extends Activity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private static final String TAG = "Signin";
+    private static final String TAG = "RegisterActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
+        setContentView(R.layout.activity_register);
+
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mAuth = FirebaseAuth.getInstance();
 
         /*
         Notifies the app whenever the user signs in or signs out.
          */
-        signOut();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -39,8 +40,6 @@ public class Signin extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    DataMaster.userDb = new Database(user.getUid());
-                    //DataMaster.userDb.getAccountList();
                     changeActivity(user.getUid());
                 } else {
                     // User is signed out
@@ -48,10 +47,6 @@ public class Signin extends AppCompatActivity {
                 }
             }
         };
-
-        //createMasterAccount("roman.priscepov@hotmail.com", "123456789");
-        //signOut();
-        //signIn("romanpr@example.com", "1234567891011");
     }
 
     @Override
@@ -71,43 +66,27 @@ public class Signin extends AppCompatActivity {
     }
 
     /*
-    Attempts to log in the user with their account's email and password passed as the arguments.
+    If the new account was created, the user is also signed in,
+    and the AuthStateListener runs the onAuthStateChanged callback.
+    In the callback, you can use the getCurrentUser method
+    to get the user's account data.
      */
-    private void signIn(String email, String password) {
+    private void createMasterAccount(String email, String password) {
 
-        mAuth.signInWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signIn:onComplete: " + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+                        Log.d(TAG, "createMasterAccount:onComplete: " + task.isSuccessful());
+
                         if (!task.isSuccessful()) {
-                            Log.w(TAG, "signIn:failed", task.getException());
-                            Toast.makeText(Signin.this, R.string.auth_failed,
+                            Log.w(TAG, "createMasterAccount:failed", task.getException());
+                            Toast.makeText(RegisterActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-    }
-
-    /*
-    Logs out the currently logged in user.
-     */
-    public void signOut() {
-
-        // FirebaseAuth.getInstance().signOut();
-
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        if (currentUser != null) {
-            mAuth.signOut();
-            Log.d(TAG, "Signed out: " + currentUser.getUid());
-        } else {
-            Log.d(TAG, "No one to sign out");
-        }
     }
 
     public void changeActivity(String uid) {
@@ -116,23 +95,28 @@ public class Signin extends AppCompatActivity {
         startActivity(myIntent);
     }
 
-    public void buttonClickLogin(View view) {
-        EditText etUsername = (EditText) findViewById(R.id.editTextUsername);
-        EditText etPassword = (EditText) findViewById(R.id.editTextPassword);
+    public void buttonClickRegister(View view) {
+
+        EditText etUsername = (EditText) findViewById(R.id.editTextRegisterUsername);
+        EditText etPassword = (EditText) findViewById(R.id.editTextRegisterPassword);
+        EditText etConfirmPassword = (EditText) findViewById(R.id.editTextConfimePassword);
+
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
+        String confirmPassword = etConfirmPassword.getText().toString();
         DataMaster.masterHash = PMCrypto.whirlpoolDigest(password.getBytes());
-        signIn("romanpr@example.com", "1234567891011");
-        /*
-        if(etUsername.getText().toString().length() < 0 || etPassword.getText().toString().length() < 5){
-            Toast.makeText(this, "Username or Password is too short!", Toast.LENGTH_SHORT).show();
-        }else{
-            signIn(username, password);
-        }*/
-    }
 
-    public void bRegister(View view) {
-        Intent it = new Intent(this, RegisterActivity.class);
-        startActivity(it);
+        if(username.length() < 1 || password.length() < 1 || confirmPassword.length() < 1)
+            Toast.makeText(this, "Username or password is too short", Toast.LENGTH_SHORT);
+        else{
+            if(!(password.equals(confirmPassword)))
+            {
+                Toast.makeText(this, "Passwords don't match!!", Toast.LENGTH_SHORT);
+            }
+            else{
+                createMasterAccount(username, password);
+            }
+        }
+
     }
 }
