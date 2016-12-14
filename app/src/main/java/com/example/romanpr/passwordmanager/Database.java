@@ -43,7 +43,7 @@ public class Database {
     /*
     Cleans the string of any characters forbidden to be part of the key in Firebase.
      */
-    private String sanitize(String str) {
+    private static String sanitize(String str) {
 
         // Firebase Database paths must not contain '.', '#', '$', '[', or ']'
         return str.replaceAll("[^a-zA-Z0-9]","");
@@ -52,7 +52,7 @@ public class Database {
     /*
     Generates account ID based on the service and username of the account.
      */
-    private String getAccountId(String service, String username) {
+    public static String getAccountId(String service, String username) {
 
         String accountId = sanitize(service) + '_' + sanitize(username);
 
@@ -150,4 +150,7 @@ public class Database {
         Log.d(TAG, "Password updated for: " + accountId);
     }
 
+    public DatabaseReference getDatabase() {
+        return database;
+    }
 }

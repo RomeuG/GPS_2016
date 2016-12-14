@@ -7,17 +7,14 @@
     tools:context="com.example.romanpr.passwordmanager.RegisterActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp">
 
         <TextView
             android:text="Username"
@@ -32,7 +29,9 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/editTextRegisterUsername"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp" />
 
         <TextView
             android:text="Password"
@@ -48,7 +47,8 @@
             android:ems="10"
             android:id="@+id/editTextRegisterPassword"
             android:gravity="center_horizontal"
-            />
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp" />
 
         <TextView
             android:text="Confirm Password"
@@ -64,7 +64,8 @@
             android:ems="10"
             android:id="@+id/editTextConfimePassword"
             android:gravity="center_horizontal"
-            />
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp" />
 
         <Button
             android:text="Confirm"
@@ -73,7 +74,8 @@
             android:id="@+id/buttonRegisterConfirm"
             android:gravity="center"
             android:layout_gravity="center"
-            android:onClick="buttonClickRegister"/>
+            android:onClick="buttonClickRegister"
+            android:layout_marginTop="15dp" />
 
     </LinearLayout>
 </LinearLayout>

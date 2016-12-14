@@ -11,10 +11,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class ShowServices extends Activity {
-    ArrayAdapter<String> adapter;
+
+    ListView listView;
 
     private static final String TAG = "ShowServices";
     //private DatabaseReference database;
@@ -36,16 +41,16 @@ public class ShowServices extends Activity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                DataMaster.services);
-        ListView listView = (ListView) findViewById(R.id.list_viewShowServices);
+        /*adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+                DataMaster.services);*/
+        listView = (ListView) findViewById(R.id.list_viewShowServices);
 
 
-        listView.setAdapter(adapter);
+        /*listView.setAdapter(adapter);
         DataMaster.userDb.getAccountList();
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();*/
         //listView.invalidate();
-
+        getAccountList();
         //new Thr().execute();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -67,10 +72,10 @@ public class ShowServices extends Activity {
         startActivity(it);
     }
 
-    public void updateList(View view) {
+   /* public void updateList(View view) {
         adapter.notifyDataSetChanged();
     }
-
+*/
 
 
 
@@ -78,7 +83,7 @@ public class ShowServices extends Activity {
     /*
    Retrieves the names of the services the user has passwords stored too.
     */
-    /*
+
     public void getAccountList() {
 
         ValueEventListener accountListener = new ValueEventListener() {
@@ -91,8 +96,14 @@ public class ShowServices extends Activity {
                 DataMaster.services = new ArrayList<>();
                 for (DataSnapshot account : accountList) {
                     Log.d(TAG, account.child("service").getValue().toString());
-                    DataMaster.services.add(account.child("service").getValue().toString());
+                    DataMaster.services.add(account.child("service").getValue().toString()
+                        + " " + account.child("username").getValue().toString());
                 }
+                ArrayAdapter arrayAdapter = new ArrayAdapter(ShowServices.this,
+                        android.R.layout.simple_list_item_1, DataMaster.services);
+                listView.setAdapter(arrayAdapter);
+                arrayAdapter.notifyDataSetChanged();
+
 
             }
 
@@ -103,10 +114,10 @@ public class ShowServices extends Activity {
             }
         };
 
-        database.addListenerForSingleValueEvent(accountListener);
-    }*/
+        DataMaster.userDb.getDatabase().addListenerForSingleValueEvent(accountListener);
+    }
 
-    class Thr extends AsyncTask<Object, String, Void> {
+   /* class Thr extends AsyncTask<Object, String, Void> {
 
         ArrayAdapter<String> thisAdapter;
 
@@ -138,5 +149,5 @@ public class ShowServices extends Activity {
             thisAdapter.notifyDataSetChanged();
             Log.e(TAG, "onPostExecute: ok cheguei aqui");
         }
-    }
+    }*/
 }

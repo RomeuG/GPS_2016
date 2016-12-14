@@ -15,11 +15,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Random;
 
 public class ShowPassword extends Activity {
 
     String[] accountInfo;
+    private static final String TAG = "ShowPassword";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +35,44 @@ public class ShowPassword extends Activity {
         accountInfo = selectedItem.split(" ");
         TextView tv = (TextView) findViewById(R.id.textViewServiceName);
         tv.setText(accountInfo[0]);
-        DataMaster.userDb.getAccount(accountInfo[0], accountInfo[1]);
+        getAccount(accountInfo[0], accountInfo[1]);
 
+    }
+
+    /*
+    Fetched an account from the database based on the service and username associated with it.
+     */
+    public void getAccount(String service, String username) {
+
+        String accountId = Database.getAccountId(service, username);
+        ValueEventListener accountListener = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Account fetchedAccount = dataSnapshot.getValue(Account.class);
+                Log.d(TAG, "Fetched account: " + fetchedAccount.toString());
+                DataMaster.acc = fetchedAccount;
+
+                TextView username = (TextView) findViewById(R.id.textViewUserNameService);
+                TextView password = (TextView) findViewById(R.id.textViewPasswordService);
+
+                if(DataMaster.acc != null) {
+
+                    username.setText(DataMaster.acc.getUsername());
+                    password.setText(DataMaster.acc.getPassword());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                Log.w(TAG, "getAccount:onCancelled", databaseError.toException());
+            }
+        };
+
+        DataMaster.userDb.getDatabase().child(accountId).addListenerForSingleValueEvent(accountListener);
     }
 
     public void updateAcc(View view) {

@@ -13,103 +13,60 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:layout_marginTop="50sp">
 
         android:layout_width=""
-        <TextView
+
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewServiceName"
-            android:text="Add New Service"
-            android:textSize="40sp"
-            android:gravity="center_horizontal"/>
+            android:id="@+id/etNServiceCS"
+            android:text=""
+            android:hint="Service Name"
+            android:textSize="20sp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/key"
-            android:layout_gravity="center_horizontal"></ImageView>
+            android:id="@+id/etUsernameCS"
+            android:text=""
+            android:hint="Username"
+            android:textSize="20sp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp" />
 
-        <LinearLayout
-            android:layout_marginTop="20sp"
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/etNServiceCS"
-                android:text=""
-                android:hint="Service Name"
-                android:textSize="30sp"/>
-        </LinearLayout>
+            android:id="@+id/etPasswordCS"
+            android:inputType="textPassword"
+            android:textSize="20sp"
+            android:hint="Password"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp" />
 
-        <LinearLayout
+        <EditText
+            android:layout_width="match_parent"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content"
+            android:id="@+id/etConfirmPasswordCS"
+            android:textSize="20sp"
+            android:hint="Confirm Password"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp" />
+
+        <Button
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/etUsernameCS"
-                android:text=""
-                android:hint="Enter your Username"
-                android:textSize="30sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
+            android:text="Create"
+            android:id="@+id/bUpdatePass"
+            android:onClick="createAccount"
+            android:layout_gravity="center_horizontal"/>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/etPasswordCS"
-                android:inputType="textPassword"
-                android:textSize="30sp"
-                android:hint="Enter a Password"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:inputType="textPassword"
-                android:layout_height="wrap_content"
-                android:id="@+id/etConfirmPasswordCS"
-                android:textSize="30sp"
-                android:hint="Confirm Password"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
-
-            <Button
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Create"
-                android:id="@+id/bUpdatePass"
-                android:onClick="createAccount"
-                android:layout_gravity="center_horizontal"/>
-
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
