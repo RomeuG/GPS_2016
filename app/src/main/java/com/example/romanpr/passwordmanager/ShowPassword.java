@@ -25,8 +25,10 @@ public class ShowPassword extends Activity {
 
     String[] accountInfo;
     private static final String TAG = "ShowPassword";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_password);
 
@@ -36,17 +38,13 @@ public class ShowPassword extends Activity {
         TextView tv = (TextView) findViewById(R.id.textViewServiceName);
         tv.setText(accountInfo[0]);
         getAccount(accountInfo[0], accountInfo[1]);
-
     }
 
-    /*
-    Fetched an account from the database based on the service and username associated with it.
-     */
+    // Fetches an account from the database based on the service and username associated with it
     public void getAccount(String service, String username) {
 
         String accountId = Database.getAccountId(service, username);
         ValueEventListener accountListener = new ValueEventListener() {
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -57,17 +55,15 @@ public class ShowPassword extends Activity {
                 TextView username = (TextView) findViewById(R.id.textViewUserNameService);
                 TextView password = (TextView) findViewById(R.id.textViewPasswordService);
 
-                if(DataMaster.acc != null) {
-
-                    username.setText(DataMaster.acc.getUsername());
-                    password.setText(DataMaster.acc.getPassword());
-
+                // Set the fields' values to the account's credentials
+                if(fetchedAccount != null) {
+                    username.setText(fetchedAccount.getUsername());
+                    password.setText(fetchedAccount.getDecryptedPassword());
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
                 Log.w(TAG, "getAccount:onCancelled", databaseError.toException());
             }
         };
@@ -75,20 +71,7 @@ public class ShowPassword extends Activity {
         DataMaster.userDb.getDatabase().child(accountId).addListenerForSingleValueEvent(accountListener);
     }
 
-    public void updateAcc(View view) {
-        TextView username = (TextView) findViewById(R.id.textViewUserNameService);
-        TextView password = (TextView) findViewById(R.id.textViewPasswordService);
-
-        if(DataMaster.acc != null) {
-
-                    username.setText(DataMaster.acc.getUsername());
-                    password.setText(DataMaster.acc.getPassword());
-
-        }
-    }
-
-
-    //This method generates a random password with or without special characters according to the variable sc
+    // Generates a random password with or without special characters according to the argument sc
     public static String generateRandomPassword(int length, boolean sc) {
 
         Random random = new Random();
@@ -120,7 +103,9 @@ public class ShowPassword extends Activity {
         return new String(buf);
     }
 
+    // Set a reminder for the user to update the password within a month
     public void scheduleNotification(Context context, long delay, int notificationId) {//delay is after how much time(in millis) from current time you want to schedule the notification
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentTitle("Password Manager")
                 .setContentText("Time to update your passwords.")
@@ -148,8 +133,19 @@ public class ShowPassword extends Activity {
     public void updatePasswordService(View view) {
         String newPassword = generateRandomPassword(7, true);
         DataMaster.userDb.updatePassword(accountInfo[0], accountInfo[1], newPassword);
+        // Remind in 27 days
+        long delay = 27 * 24 * 60 * 60 * 1000;
         scheduleNotification(ShowPassword.this, 10000, 1234567);
         TextView password = (TextView) findViewById(R.id.textViewPasswordService);
         password.setText(newPassword);
+    }
+
+    public void deleteUserAccount(View view) {
+
+        if (DataMaster.acc != null) {
+            DataMaster.userDb.deleteAccount(DataMaster.acc.getService(), DataMaster.acc.getUsername());
+        }
+        Intent myIntent = new Intent(this, ShowServices.class);
+        startActivity(myIntent);
     }
 }

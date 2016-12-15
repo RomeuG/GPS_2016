@@ -18,11 +18,13 @@ import com.google.firebase.auth.FirebaseUser;
 public class Signin extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    // Listens for any changes in the user's login status
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "Signin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
@@ -40,22 +42,18 @@ public class Signin extends AppCompatActivity {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     DataMaster.userDb = new Database(user.getUid());
-                    //DataMaster.userDb.getAccountList();
-                    changeActivity(user.getUid());
+                    changeActivity();
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
             }
         };
-
-        //createMasterAccount("roman.priscepov@hotmail.com", "123456789");
-        //signOut();
-        //signIn("romanpr@example.com", "1234567891011");
     }
 
     @Override
     public void onStart() {
+
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
         Log.d(TAG, "onStart:addAuthStateListener");
@@ -63,6 +61,7 @@ public class Signin extends AppCompatActivity {
 
     @Override
     public void onStop() {
+
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
@@ -98,8 +97,6 @@ public class Signin extends AppCompatActivity {
      */
     public void signOut() {
 
-        // FirebaseAuth.getInstance().signOut();
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
@@ -110,28 +107,33 @@ public class Signin extends AppCompatActivity {
         }
     }
 
-    public void changeActivity(String uid) {
+    public void changeActivity() {
+
         Intent myIntent = new Intent(this, ShowServices.class);
-        myIntent.putExtra("USER_ID", uid);
         startActivity(myIntent);
     }
 
+    // On-click listener of the login button
     public void buttonClickLogin(View view) {
+
         EditText etUsername = (EditText) findViewById(R.id.editTextUsername);
         EditText etPassword = (EditText) findViewById(R.id.editTextPassword);
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
+        // Required to encrypt new passwords
         DataMaster.masterHash = PMCrypto.whirlpoolDigest(password.getBytes());
-        signIn("romanpr@example.com", "1234567891011");
-        /*
-        if(etUsername.getText().toString().length() < 0 || etPassword.getText().toString().length() < 5){
-            Toast.makeText(this, "Username or Password is too short!", Toast.LENGTH_SHORT).show();
-        }else{
+
+        // User input validation
+        if(username.length() > 0 && password.length() > 0){
             signIn(username, password);
-        }*/
+        }else{
+            Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    // On-click listener of the register button
     public void bRegister(View view) {
+
         Intent it = new Intent(this, RegisterActivity.class);
         startActivity(it);
     }

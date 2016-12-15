@@ -1,10 +1,12 @@
 package com.example.romanpr.passwordmanager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class newService extends Activity {
 
@@ -12,11 +14,7 @@ public class newService extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_service);
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
-
-
     }
-
 
     public void createAccount(View view) {
 
@@ -25,14 +23,16 @@ public class newService extends Activity {
         String password = ((EditText) findViewById(R.id.etPasswordCS)).getText().toString();
         String passwordConfirm = ((EditText) findViewById(R.id.etConfirmPasswordCS)).getText().toString();
 
-        if (service != null && username != null && password != null && passwordConfirm != null &&
-                service.length() > 0 && username.length() > 0 && password.length() > 0 && passwordConfirm.length() > 0 &&
-                password.equals(passwordConfirm)) {
-
+        // User input validation
+        if (service.length() > 0 && username.length() > 0 && password.length() > 0 && password.equals(passwordConfirm)) {
             Account newAccount = new Account(service, username, password);
             Log.e("newService", newAccount.toString());
             DataMaster.userDb.saveNewAccount(newAccount);
-
+            Toast.makeText(this, "New account successfully added", Toast.LENGTH_SHORT);
+            Intent myIntent = new Intent(this, ShowServices.class);
+            startActivity(myIntent);
+        } else {
+            Toast.makeText(this, "Some fields are invalid", Toast.LENGTH_SHORT);
         }
     }
 

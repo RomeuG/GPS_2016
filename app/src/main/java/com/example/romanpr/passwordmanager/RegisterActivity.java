@@ -23,24 +23,23 @@ public class RegisterActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
-
         mAuth = FirebaseAuth.getInstance();
 
-        /*
-        Notifies the app whenever the user signs in or signs out.
-         */
+
+        // Notifies the app whenever the user signs in or signs out.
         mAuthListener = new FirebaseAuth.AuthStateListener() {
+
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    changeActivity(user.getUid());
+                    DataMaster.userDb = new Database(user.getUid());
+                    changeActivity();
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -51,6 +50,7 @@ public class RegisterActivity extends Activity {
 
     @Override
     public void onStart() {
+
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
         Log.d(TAG, "onStart:addAuthStateListener");
@@ -58,6 +58,7 @@ public class RegisterActivity extends Activity {
 
     @Override
     public void onStop() {
+
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
@@ -89,12 +90,13 @@ public class RegisterActivity extends Activity {
                 });
     }
 
-    public void changeActivity(String uid) {
+    public void changeActivity() {
+
         Intent myIntent = new Intent(this, ShowServices.class);
-        myIntent.putExtra("USER_ID", uid);
         startActivity(myIntent);
     }
 
+    // On-click listener of the register button
     public void buttonClickRegister(View view) {
 
         EditText etUsername = (EditText) findViewById(R.id.editTextRegisterUsername);
@@ -104,19 +106,14 @@ public class RegisterActivity extends Activity {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
         String confirmPassword = etConfirmPassword.getText().toString();
-        DataMaster.masterHash = PMCrypto.whirlpoolDigest(password.getBytes());
 
-        if(username.length() < 1 || password.length() < 1 || confirmPassword.length() < 1)
-            Toast.makeText(this, "Username or password is too short", Toast.LENGTH_SHORT);
-        else{
-            if(!(password.equals(confirmPassword)))
-            {
-                Toast.makeText(this, "Passwords don't match!!", Toast.LENGTH_SHORT);
-            }
-            else{
-                createMasterAccount(username, password);
-            }
+        // User input validation
+        if(username.length() > 0 && password.length() > 0 && password.equals(confirmPassword)) {
+            // Required to encrypt new passwords
+            DataMaster.masterHash = PMCrypto.whirlpoolDigest(password.getBytes());
+            createMasterAccount(username, password);
+        } else{
+            Toast.makeText(this, "Some fields are invalid", Toast.LENGTH_SHORT);
         }
-
     }
 }
