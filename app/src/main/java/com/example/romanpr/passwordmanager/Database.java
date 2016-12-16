@@ -12,7 +12,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.crypto.SecretKey;
 
@@ -147,6 +150,9 @@ public class Database {
         SecretKey key = PMCrypto.AESDeriveKey(DataMaster.masterHash, DataMaster.acc.salt.getBytes());
         String newPasswordEncrypted = PMCrypto.AESEncryptPBKDF2(newPassword, key, DataMaster.acc.iv);
         database.child(accountId).child("password").setValue(newPasswordEncrypted);
+
+        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        database.child(accountId).child("lastUpdated").setValue(sdf.format(new Date()));
         Log.d(TAG, "Password updated for: " + accountId);
     }
 

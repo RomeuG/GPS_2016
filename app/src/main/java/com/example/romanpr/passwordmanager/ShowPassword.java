@@ -24,6 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class ShowPassword extends Activity {
@@ -73,7 +77,27 @@ public class ShowPassword extends Activity {
         clipboard.setPrimaryClip(data);
     }
 
+    public boolean tooLate(String updateDateString) {
 
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date updateDate;
+        boolean late = false;
+        try {
+            updateDate = df.parse(updateDateString);
+            //30*24*60*60*1000
+            long delay = 18*1000;
+            Date now = new Date();
+            Log.d("ShowPassword", "Now: " + now.getTime());
+            Log.d("ShowPassword", "Expiration: " + (updateDate.getTime() + delay));
+
+            if (now.getTime() > (updateDate.getTime() + delay)) {
+                late = true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return late;
+    }
 
     // Fetches an account from the database based on the service and username associated with it
     public void getAccount(String service, String username) {
@@ -93,7 +117,11 @@ public class ShowPassword extends Activity {
                 // Set the fields' values to the account's credentials
                 if(fetchedAccount != null) {
                     username.setText(fetchedAccount.getUsername());
-                    password.setText(fetchedAccount.getDecryptedPassword());
+                    if (!tooLate(fetchedAccount.getLastUpdated())) {
+                        password.setText(fetchedAccount.getDecryptedPassword());
+                    } else {
+                        password.setText("Password expired");
+                    }
                 }
             }
 
