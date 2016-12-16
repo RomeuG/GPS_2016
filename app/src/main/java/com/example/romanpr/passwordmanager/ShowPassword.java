@@ -103,39 +103,12 @@ public class ShowPassword extends Activity {
         return new String(buf);
     }
 
-    // Set a reminder for the user to update the password within a month
-    public void scheduleNotification(Context context, long delay, int notificationId) {//delay is after how much time(in millis) from current time you want to schedule the notification
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                .setContentTitle("Password Manager")
-                .setContentText("Time to update your passwords.")
-                .setAutoCancel(true)
-                .setSmallIcon(R.drawable.key);
-
-        Intent intent = new Intent(context, Signin.class);
-        PendingIntent activity = PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        builder.setContentIntent(activity);
-
-        Notification notification = builder.build();
-
-        Intent notificationIntent = new Intent(context, MyNotificationPublisher.class);
-        notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION_ID, notificationId);
-        notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-
-        Log.d("Notif", "scheduleNotification finished");
-    }
-
     public void updatePasswordService(View view) {
         String newPassword = generateRandomPassword(7, true);
         DataMaster.userDb.updatePassword(accountInfo[0], accountInfo[1], newPassword);
         // Remind in 27 days
         long delay = 27 * 24 * 60 * 60 * 1000;
-        scheduleNotification(ShowPassword.this, 10000, 1234567);
+        MyNotificationPublisher.scheduleNotification(ShowPassword.this, 10000, 1234567);
         TextView password = (TextView) findViewById(R.id.textViewPasswordService);
         password.setText(newPassword);
     }

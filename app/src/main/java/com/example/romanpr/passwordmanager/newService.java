@@ -28,6 +28,9 @@ public class newService extends Activity {
             Account newAccount = new Account(service, username, password);
             Log.e("newService", newAccount.toString());
             DataMaster.userDb.saveNewAccount(newAccount);
+            // Remind in 27 days
+            long delay = 27 * 24 * 60 * 60 * 1000;
+            MyNotificationPublisher.scheduleNotification(newService.this, 10000, 1234567);
             Toast.makeText(this, "New account successfully added", Toast.LENGTH_SHORT);
             Intent myIntent = new Intent(this, ShowServices.class);
             startActivity(myIntent);
