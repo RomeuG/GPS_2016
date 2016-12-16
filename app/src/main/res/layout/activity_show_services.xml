@@ -24,14 +24,14 @@
             android:layout_width="match_parent"
             android:layout_height="375dp"
             android:id="@+id/list_viewShowServices"
-            />
+            android:layout_marginTop="15dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buttonAddService"
             android:text="Add"
-            android:layout_gravity="center"
+            android:layout_gravity="bottom|center_horizontal"
             android:onClick="addAccount"
             android:layout_marginTop="15dp" />
 

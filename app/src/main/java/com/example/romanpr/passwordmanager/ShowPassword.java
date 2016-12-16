@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,12 +14,15 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.Random;
 
@@ -38,7 +43,37 @@ public class ShowPassword extends Activity {
         TextView tv = (TextView) findViewById(R.id.textViewServiceName);
         tv.setText(accountInfo[0]);
         getAccount(accountInfo[0], accountInfo[1]);
+
+        ImageButton btUsernameCopy = (ImageButton) findViewById(R.id.ibUsernameCopy);
+        ImageButton btPasswordCopy = (ImageButton) findViewById(R.id.ibPasswordCopy);
+
+        btUsernameCopy.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                TextView username = (TextView) findViewById(R.id.textViewUserNameService);
+                copyToClipboard(username.getText().toString());
+            }
+        });
+
+        btPasswordCopy.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                TextView password = (TextView) findViewById(R.id.textViewPasswordService);
+                copyToClipboard(password.getText().toString());
+            }
+        });
     }
+
+    public void copyToClipboard(String text) {
+        ClipData data = ClipData.newPlainText("", text);
+        Context context = getApplicationContext();
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboard.setPrimaryClip(data);
+    }
+
+
 
     // Fetches an account from the database based on the service and username associated with it
     public void getAccount(String service, String username) {
